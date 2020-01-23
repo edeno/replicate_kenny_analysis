@@ -3,11 +3,13 @@
 from setuptools import find_packages, setup
 
 INSTALL_REQUIRES = ['numpy', 'numba', 'scipy', 'scikit-learn', 'matplotlib',
-                    'xarray', 'pandas', 'dask', 'tqdm', 'statsmodels', 'patsy']
+                    'xarray', 'pandas', 'dask', 'tqdm', 'ripple_detection',
+                    'replay_trajectory_classification',
+                    'replay_identification']
 TESTS_REQUIRE = ['pytest >= 2.7.1']
 
 setup(
-    name='analysis_template',
+    name='replicate_kenny_analysis',
     version='0.1.0.dev0',
     license='MIT',
     description=(''),

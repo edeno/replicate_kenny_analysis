@@ -1,13 +1,10 @@
-# <repository_name>
-Repository description goes here.
+# replicate_kenny_analysis
+replicate_kenny_analysis
 
 
 ## Installation
-1. git clone <repository>
-2. Add dependencies to setup.py and environment.yml
-3. Create conda environment:
+1. git clone replicate_kenny_analysis
+2. Create conda environment:
 ```conda env create -f environment.yml```
 4. Make package editable:
-```python setup.py develop```
-
-
+```python replicate_kenny_analysis/setup.py develop```
