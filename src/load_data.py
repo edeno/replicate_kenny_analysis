@@ -49,28 +49,6 @@ def get_ripple_times(epoch_key, sampling_frequency=1500,
         minimum_duration=np.timedelta64(15, 'ms'))
 
 
-def get_adhoc_ripple(time, speed, tetrode_info):
-    is_brain_areas = (
-        tetrode_info.area.astype(str).str.upper().isin(BRAIN_AREAS))
-    tetrode_keys = tetrode_info.loc[
-        is_brain_areas & (tetrode_info.validripple == 1)].index
-
-    ripple_lfps = get_LFPs(tetrode_keys, ANIMALS).reindex(time)
-    ripple_lfps = (
-        ripple_lfps.resample('1ms').mean().fillna(method='pad').reindex(time))
-    ripple_times = Kay_ripple_detector(
-        time, ripple_lfps.values, speed.values, SAMPLING_FREQUENCY,
-        zscore_threshold=2.0, close_ripple_threshold=np.timedelta64(0, 'ms'),
-        minimum_duration=np.timedelta64(15, 'ms'))
-
-    ripple_times.index = ripple_times.index.rename('replay_number')
-    ripple_labels = get_labels(ripple_times, time)
-    is_ripple = ripple_labels > 0
-
-    return dict(ripple_times=ripple_times,
-                is_ripple=is_ripple)
-
-
 def load_data(epoch_key, brain_areas=None):
 
     if brain_areas is None:
