@@ -16,15 +16,6 @@ from .parameters import _MARKS, ANIMALS, BRAIN_AREAS, SAMPLING_FREQUENCY
 logger = getLogger(__name__)
 
 
-def get_labels(times, time):
-    ripple_labels = pd.DataFrame(np.zeros_like(time, dtype=np.int), index=time,
-                                 columns=['replay_number'])
-    for replay_number, start_time, end_time in times.itertuples():
-        ripple_labels.loc[start_time:end_time] = replay_number
-
-    return ripple_labels
-
-
 def get_ripple_times(epoch_key, sampling_frequency=1500,
                      brain_areas=BRAIN_AREAS):
     position_info = (
