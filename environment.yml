@@ -10,6 +10,7 @@ dependencies:
 - replay_identification
 - spectral_connectivity
 - ripple_detection
+- spindle_detector
 - numpy
 - numba
 - scipy

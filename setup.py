@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 INSTALL_REQUIRES = ['numpy', 'numba', 'scipy', 'scikit-learn', 'matplotlib',
                     'xarray', 'pandas', 'dask', 'tqdm', 'ripple_detection',
                     'replay_trajectory_classification',
-                    'replay_identification']
+                    'replay_identification', 'spindle_detector']
 TESTS_REQUIRE = ['pytest >= 2.7.1']
 
 setup(
