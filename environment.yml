@@ -18,6 +18,7 @@ dependencies:
 - matplotlib
 - dask
 - tqdm
+- ipywidgets
 - jupyter
 - jupyterlab
 - nb_conda
