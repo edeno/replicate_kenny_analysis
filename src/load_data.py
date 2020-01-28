@@ -176,6 +176,8 @@ def load_data(epoch_key, brain_areas=None):
     for replay_number, start_time, end_time in ripple_times.itertuples():
         is_ripple.loc[start_time:end_time] = replay_number
 
+    is_theta = get_theta_times(epoch_key)
+
     return {
         'position_info': position_info,
         'ripple_times': ripple_times,
@@ -187,4 +189,5 @@ def load_data(epoch_key, brain_areas=None):
         'multiunit_firing_rate': multiunit_firing_rate,
         'sampling_frequency': SAMPLING_FREQUENCY,
         'is_ripple': is_ripple,
+        'is_theta': is_theta,
     }
