@@ -160,8 +160,8 @@ def load_data(epoch_key, brain_areas=None):
                         ).astype(np.float)
     multiunit_firing_rate = pd.DataFrame(
         get_multiunit_population_firing_rate(
-            multiunit_spikes, SAMPLING_FREQUENCY), index=time,
-        columns=['firing_rate'])
+            multiunit_spikes, SAMPLING_FREQUENCY, smoothing_sigma=0.020),
+        index=time, columns=['firing_rate'])
 
     logger.info('Finding ripple times...')
     ripple_times = get_ripple_times(epoch_key)
