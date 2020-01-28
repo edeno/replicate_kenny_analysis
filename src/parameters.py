@@ -32,3 +32,17 @@ detector_parameters = {
     'multiunit_occupancy_kwargs': {'bandwidth': np.array([8.0])},
     'discrete_state_transition_type': 'constant',
 }
+
+classifier_parameters = {
+    'movement_var': 25.0,
+    'replay_speed': 1,
+    'place_bin_size': 1.0,
+    'continuous_transition_types': [['w_track_1D_random_walk', 'uniform'],
+                                    ['uniform',                'uniform']],
+    'model_kwargs': {
+        'bandwidth': np.array([20.0, 20.0, 20.0, 20.0, 8.0])}
+
+}
+
+discrete_state_transition = np.array([[0.99, 0.01],
+                                      [0.99, 0.01]])
