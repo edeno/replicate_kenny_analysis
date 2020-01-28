@@ -11,9 +11,82 @@ from loren_frank_data_processing import (get_all_multiunit_indicators,
 from ripple_detection import (Kay_ripple_detector, filter_ripple_band,
                               get_multiunit_population_firing_rate)
 
-from .parameters import _MARKS, ANIMALS, BRAIN_AREAS, SAMPLING_FREQUENCY
+from spectral_rhythm_detector import detect_spectral_rhythm
+from src.parameters import _MARKS, ANIMALS, BRAIN_AREAS, SAMPLING_FREQUENCY
 
 logger = getLogger(__name__)
+
+
+def get_theta_times(epoch_key, sampling_frequency=1500):
+    THETA_BAND = (6, 12)
+    TIME_WINDOW_STEP = TIME_WINDOW_DURATION = 0.300
+    TIME_HALFBANDWIDTH_PRODUCT = 1
+
+    position_info = (
+        get_interpolated_position_dataframe(epoch_key, ANIMALS)
+        .dropna(subset=['linear_distance', 'linear_speed']))
+    time = position_info.index
+    tetrode_info = make_tetrode_dataframe(ANIMALS, epoch_key=epoch_key)
+    tetrode_keys = tetrode_info.loc[tetrode_info.area == 'Reference'].index
+
+    lfps = get_LFPs(tetrode_keys, ANIMALS).reindex(time)
+
+    multitaper_params = dict(
+        time_halfbandwidth_product=TIME_HALFBANDWIDTH_PRODUCT,
+        time_window_duration=TIME_WINDOW_DURATION,
+        time_window_step=TIME_WINDOW_STEP,
+        start_time=(time.values / np.timedelta64(1, 's')).min(),
+    )
+
+    df, model = detect_spectral_rhythm(
+        time=time.values / np.timedelta64(1, 's'),
+        lfps=lfps.values,
+        sampling_frequency=sampling_frequency,
+        multitaper_params=multitaper_params,
+        frequency_band=THETA_BAND
+    )
+
+    return df.is_spectral_rhythm
+
+
+def get_ripple_times2(epoch_key, sampling_frequency=1500,
+                      brain_areas=BRAIN_AREAS):
+    RIPPLE_BAND = (150, 250)
+    TIME_WINDOW_STEP = TIME_WINDOW_DURATION = 0.020
+    TIME_HALFBANDWIDTH_PRODUCT = 1
+
+    position_info = (
+        get_interpolated_position_dataframe(epoch_key, ANIMALS)
+        .dropna(subset=['linear_distance', 'linear_speed']))
+    time = position_info.index
+    tetrode_info = make_tetrode_dataframe(ANIMALS).xs(
+        epoch_key, drop_level=False)
+    if ~np.all(np.isnan(tetrode_info.validripple.astype(float))):
+        tetrode_keys = tetrode_info.loc[
+            (tetrode_info.validripple == 1)].index
+    else:
+        is_brain_areas = (
+            tetrode_info.area.astype(str).str.upper().isin(brain_areas))
+        tetrode_keys = tetrode_info.loc[is_brain_areas].index
+
+    lfps = get_LFPs(tetrode_keys, ANIMALS).reindex(time)
+
+    multitaper_params = dict(
+        time_halfbandwidth_product=TIME_HALFBANDWIDTH_PRODUCT,
+        time_window_duration=TIME_WINDOW_DURATION,
+        time_window_step=TIME_WINDOW_STEP,
+        start_time=(time.values / np.timedelta64(1, 's')).min(),
+    )
+
+    df, model = detect_spectral_rhythm(
+        time=time.values / np.timedelta64(1, 's'),
+        lfps=lfps.values,
+        sampling_frequency=sampling_frequency,
+        multitaper_params=multitaper_params,
+        frequency_band=RIPPLE_BAND
+    )
+
+    return df.is_spectral_rhythm
 
 
 def get_ripple_times(epoch_key, sampling_frequency=1500,
