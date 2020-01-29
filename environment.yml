@@ -15,6 +15,7 @@ dependencies:
 - numba
 - scipy
 - scikit-learn
+- seaborn
 - matplotlib
 - dask
 - tqdm
