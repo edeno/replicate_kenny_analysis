@@ -23,10 +23,10 @@ BRAIN_AREAS = ['CA1', 'CA2', 'CA3']
 detector_parameters = {
     'movement_var': 25.0,
     'replay_speed': 1,
-    'place_bin_size': 1.0,
+    'place_bin_size': 5.0,
     'spike_model_knot_spacing': 8.0,
     'spike_model_penalty': 0.5,
-    'movement_state_transition_type': 'w_track_1D_random_walk',
+    'movement_state_transition_type': 'random_walk',
     'multiunit_model_kwargs': {
         'bandwidth': np.array([20.0, 20.0, 20.0, 20.0, 8.0])},
     'multiunit_occupancy_kwargs': {'bandwidth': np.array([8.0])},
@@ -36,9 +36,9 @@ detector_parameters = {
 classifier_parameters = {
     'movement_var': 25.0,
     'replay_speed': 1,
-    'place_bin_size': 1.0,
-    'continuous_transition_types': [['w_track_1D_random_walk', 'uniform'],
-                                    ['uniform',                'uniform']],
+    'place_bin_size': 5.0,
+    'continuous_transition_types': [['random_walk', 'uniform'],
+                                    ['uniform',     'uniform']],
     'model_kwargs': {
         'bandwidth': np.array([20.0, 20.0, 20.0, 20.0, 8.0])}
 
