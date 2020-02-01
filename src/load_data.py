@@ -24,7 +24,7 @@ def get_theta_times(epoch_key, sampling_frequency=1500):
 
     position_info = (
         get_interpolated_position_dataframe(epoch_key, ANIMALS)
-        .dropna(subset=['linear_distance', 'linear_speed']))
+        .dropna(subset=['linear_position', 'speed']))
     time = position_info.index
     tetrode_info = make_tetrode_dataframe(ANIMALS, epoch_key=epoch_key)
     tetrode_keys = tetrode_info.loc[tetrode_info.area == 'Reference'].index
@@ -93,7 +93,7 @@ def get_ripple_times(epoch_key, sampling_frequency=1500,
                      brain_areas=BRAIN_AREAS):
     position_info = (
         get_interpolated_position_dataframe(epoch_key, ANIMALS)
-        .dropna(subset=['linear_distance', 'linear_speed']))
+        .dropna(subset=['linear_position', 'speed']))
     speed = position_info['speed']
     time = position_info.index
     tetrode_info = make_tetrode_dataframe(ANIMALS, epoch_key=epoch_key)
@@ -128,7 +128,7 @@ def load_data(epoch_key, brain_areas=None):
     position_info = (
         get_interpolated_position_dataframe(
             epoch_key, ANIMALS, _time_function)
-        .dropna(subset=['linear_distance', 'linear_speed']))
+        .dropna(subset=['linear_position', 'speed']))
 
     time = position_info.index
 
