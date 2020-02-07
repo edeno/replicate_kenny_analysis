@@ -31,7 +31,7 @@ detector_parameters = {
         'bandwidth': np.array([20.0, 20.0, 20.0, 20.0, 8.0])},
     'multiunit_occupancy_kwargs': {'bandwidth': np.array([8.0])},
     'discrete_state_transition_type': 'constant',
-    'discrete_diagonal': np.array([0.00003, 0.98])
+    'discrete_diagonal': np.array([0.00003, 0.968])
 }
 
 classifier_parameters = {
@@ -45,5 +45,15 @@ classifier_parameters = {
 
 }
 
-discrete_state_transition = np.array([[0.99, 0.01],
-                                      [0.99, 0.01]])
+discrete_state_transition = np.array([[0.968, 0.032],
+                                      [0.968, 0.032]])
+
+'''
+1. Geometric mean of duration is 1 / (1 - p)
+2. So p = 1 - (1 / n_time_steps).
+3. Want `n_time_steps` to equal half a theta cycle.
+4. Theta cycles are ~8 Hz or 125 ms per cycle.
+5. Half a theta cycle is 62.5 ms.
+6. If our timestep is 2 ms, then n_time_steps = 31.25
+7. So p = 0.968
+'''
