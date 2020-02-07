@@ -31,6 +31,7 @@ detector_parameters = {
         'bandwidth': np.array([20.0, 20.0, 20.0, 20.0, 8.0])},
     'multiunit_occupancy_kwargs': {'bandwidth': np.array([8.0])},
     'discrete_state_transition_type': 'constant',
+    'discrete_diagonal': np.array([0.00003, 0.98])
 }
 
 classifier_parameters = {
