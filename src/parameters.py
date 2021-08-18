@@ -14,7 +14,6 @@ FIGURE_DIR = join(ROOT_DIR, 'figures')
 
 ANIMALS = {
     'bon': Animal(directory=join(RAW_DATA_DIR, 'Bond'), short_name='bon'),
-    'fra': Animal(directory=join(RAW_DATA_DIR, 'Frank'), short_name='fra'),
 }
 
 _MARKS = ['channel_1_max', 'channel_2_max', 'channel_3_max', 'channel_4_max']
