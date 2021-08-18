@@ -10,7 +10,6 @@ from loren_frank_data_processing import (get_all_multiunit_indicators,
                                          make_tetrode_dataframe)
 from ripple_detection import (Kay_ripple_detector, filter_ripple_band,
                               get_multiunit_population_firing_rate)
-
 from spectral_rhythm_detector import detect_spectral_rhythm
 from src.parameters import _MARKS, ANIMALS, BRAIN_AREAS, SAMPLING_FREQUENCY
 
@@ -163,31 +162,12 @@ def load_data(epoch_key, brain_areas=None):
             multiunit_spikes, SAMPLING_FREQUENCY, smoothing_sigma=0.020),
         index=time, columns=['firing_rate'])
 
-    logger.info('Finding ripple times...')
-    ripple_times = get_ripple_times(epoch_key)
-
-    ripple_band_lfps = pd.DataFrame(
-        np.stack([filter_ripple_band(lfps.values[:, ind])
-                  for ind in np.arange(lfps.shape[1])], axis=1),
-        index=lfps.index)
-
-    is_ripple = pd.DataFrame(np.zeros_like(time, dtype=np.int), index=time,
-                             columns=['ripple_number'])
-    for replay_number, start_time, end_time in ripple_times.itertuples():
-        is_ripple.loc[start_time:end_time] = replay_number
-
-    is_theta = get_theta_times(epoch_key)
-
     return {
         'position_info': position_info,
-        'ripple_times': ripple_times,
         'spikes': spikes,
         'multiunit': multiunit,
         'lfps': lfps,
         'tetrode_info': tetrode_info,
-        'ripple_band_lfps': ripple_band_lfps,
         'multiunit_firing_rate': multiunit_firing_rate,
         'sampling_frequency': SAMPLING_FREQUENCY,
-        'is_ripple': is_ripple,
-        'is_theta': is_theta,
     }
